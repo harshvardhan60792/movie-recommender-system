@@ -1,52 +1,53 @@
-**Movie Recommender System**
+# Movie Recommender System
+
 This project is a content-based movie recommender system that suggests movies similar to a user's choice. The recommendation is based on movie metadata like genres, keywords, cast, and crew. The core idea is to create a "tag" for each movie by combining these features and then find the most similar movies using vectorization and cosine similarity.
 
-**How It Works**
-The system follows these steps:
-1)Data Loading and Merging: It starts by loading two datasets: tmdb_5000_movies.csv and tmdb_5000_credits.csv. These are then merged into a single dataframe based on the movie ID.
+## How It Works
 
-2)Data Cleaning and Preprocessing:
-Irrelevant columns are dropped, keeping essential features like genres, keywords, title, overview, cast, and crew.
-The JSON-like string format of genres, keywords, cast, and crew is parsed to extract the relevant names (e.g., genre names, actor names).
-For the cast, only the top 3 actors are considered. For the crew, only the director's name is extracted.
+1) **Data Loading and Merging:**  
+Load two datasets: `tmdb_5000_movies.csv` and `tmdb_5000_credits.csv`. Merge them into a single dataframe based on movie ID.
 
-3)Feature Engineering:
-A consolidated tags column is created by combining the preprocessed text from overview, genres, keywords, cast, and crew.
-Spaces are removed from multi-word strings (like "Science Fiction" becoming "ScienceFiction") to treat them as single entities.
+2) **Data Cleaning and Preprocessing:**  
+Drop irrelevant columns and keep essential features like genres, keywords, title, overview, cast, and crew.  
+Parse JSON-like strings of genres, keywords, cast, and crew to extract relevant names.  
+Consider only top 3 actors for cast and only the director for crew.
 
-4)Text Vectorization:
-The tags for all movies are vectorized using CountVectorizer from scikit-learn. This converts the text data into a numerical format, creating a vector for each movie based on the 5000 most frequent words (stop words are removed).
+3) **Feature Engineering:**  
+Create a consolidated `tags` column by combining the preprocessed text from overview, genres, keywords, cast, and crew.  
+Remove spaces from multi-word strings (e.g., "Science Fiction" → "ScienceFiction") to treat them as single entities.
 
-5)Similarity Calculation:
-The cosine similarity between all movie vectors is calculated. This results in a similarity matrix where each movie has a similarity score with every other movie.
+4) **Text Vectorization:**  
+Use `CountVectorizer` from scikit-learn to convert tags into numerical vectors based on the 5000 most frequent words, removing stop words.
 
-6)Recommendation Function:
-A function recommend(movie) takes a movie title as input.
-It finds the similarity scores for that movie from the matrix.
-It then returns the top 5 movies with the highest similarity scores.
+5) **Similarity Calculation:**  
+Compute cosine similarity between all movie vectors to get a similarity matrix. Each movie has a similarity score with every other movie.
 
-**How to Use**
-1)Prerequisites: Make sure you have Python and the following libraries installed:
-NumPy
-Pandas
-scikit-learn
+6) **Recommendation Function:**  
+The `recommend(movie)` function takes a movie title as input, finds its similarity scores, and returns the top 5 most similar movies.
 
-You can install them using pip:
-pip install numpy 
-pandas scikit-learn
+## How to Use
 
-2)Get the Data: You will need the tmdb_5000_movies.csv and tmdb_5000_credits.csv files in the same directory as the notebook or script.
+**Prerequisites:** Python with NumPy, Pandas, and scikit-learn installed.  
+Install using:  
+pip install numpy pandas scikit-learn
 
-3)Run the Code: Execute the cells in the Jupyter Notebook (recommender.ipynb) sequentially.
 
-4)Get Recommendations: Use the recommend() function to get movie suggestions. For example:
-recommend('The Dark Knight Rises')
-This will output a list of 5 movies that are most similar to "The Dark Knight Rises".
+**Get the Data:**  
+Download `tmdb_5000_movies.csv` and `tmdb_5000_credits.csv` from [Kaggle TMDB Movie Metadata](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata) and place them in the same directory as the notebook or script.
 
-**Example Output**
-Top 5 recommendations for 'The Avengers':
-Avengers: Age of Ultron
-Captain America: Civil War
-Iron Man 3
-Captain America: The First Avenger
-Iron Man
+**Run the Code:**  
+Open `recommender.ipynb` and execute the cells sequentially.
+
+**Get Recommendations:**  
+Use the `recommend()` function to get movie suggestions. For example:  recommend('The Dark Knight Rises')
+
+This will output the top 5 movies most similar to "The Dark Knight Rises".
+
+## Example Output
+
+Top 5 recommendations for 'The Avengers':  
+- Avengers: Age of Ultron  
+- Captain America: Civil War  
+- Iron Man 3  
+- Captain America: The First Avenger  
+- Iron Man
